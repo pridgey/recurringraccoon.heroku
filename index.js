@@ -19,11 +19,14 @@ var wsServer = new WebSocketServer({
 
 // Do WebSocket stuff
 wsServer.on("request", function (request) {
-  console.log("Origin:", request.origin);
+  console.log(" ");
+  console.log("=========================");
+  console.log(`${new Date()} | New Request`);
+  console.log("Request Origin:", request.origin);
 
   const allowableOrigins = JSON.parse(process.env.ALLOWABLE_ORIGINS);
   if (allowableOrigins.includes(request.origin)) {
-    console.log("Accepted :)");
+    console.log("Request Accepted :)");
     // Request is accepted
     var connection = request.accept(null, request.origin);
 
@@ -32,6 +35,7 @@ wsServer.on("request", function (request) {
     connection.on("message", function (message) {
       if (message.type === "utf8") {
         // process WebSocket message
+        console.log("Message:", message);
         connection.sendUTF(message);
       }
     });
