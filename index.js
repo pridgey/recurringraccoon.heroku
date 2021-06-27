@@ -6,7 +6,7 @@ var server = http.createServer(function (request, response) {
 });
 
 // Start listening
-server.listen(1337, function () {});
+server.listen(process.env.PORT || 80, function () {});
 
 // Create websocket server
 var wsServer = new WebSocketServer({
