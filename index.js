@@ -3,6 +3,7 @@ const io = require("socket.io")(httpServer, {
   cors: {
     methods: ["GET", "POST"],
     allowedHeaders: ["raccoon"],
+    origin: "http://localhost:3000",
   },
   allowRequest: (req, callback) => {
     // Get the allowable origins
