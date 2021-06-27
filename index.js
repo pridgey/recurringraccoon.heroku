@@ -5,8 +5,12 @@ var server = http.createServer(function (request, response) {
   // This does stuff
 });
 
+var port = process.env.PORT || 80;
+
 // Start listening
-server.listen(process.env.PORT || 80, function () {});
+server.listen(port, function () {
+  console.log(`${new Date()} | Server is listening on port: ${port}`);
+});
 
 // Create websocket server
 var wsServer = new WebSocketServer({
