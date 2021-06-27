@@ -21,27 +21,26 @@ var wsServer = new WebSocketServer({
 wsServer.on("request", function (request) {
   console.log("Origin:", request.origin);
 
-  console.log("Allowable:", process.env.ALLOWABLE_ORIGINS);
-  console.log("Test:", Array.isArray(process.env.ALLOWABLE_ORIGINS));
-  console.log("Type:", typeof process.env.ALLOWABLE_ORIGINS);
-  console.log(
-    "JSON:",
-    Array.isArray(JSON.parse(process.env.ALLOWABLE_ORIGINS))
-  );
+  const allowableOrigins = JSON.parse(process.env.ALLOWABLE_ORIGINS);
+  if (allowableOrigins.includes(request.origin)) {
+    console.log("Accepted :)");
+    // Request is accepted
+    var connection = request.accept(null, request.origin);
 
-  // Call this if accepted
-  var connection = request.accept(null, request.origin);
+    // This is the most important callback for us, we'll handle
+    // all messages from users here.
+    connection.on("message", function (message) {
+      if (message.type === "utf8") {
+        // process WebSocket message
+        connection.sendUTF(message);
+      }
+    });
 
-  // This is the most important callback for us, we'll handle
-  // all messages from users here.
-  connection.on("message", function (message) {
-    if (message.type === "utf8") {
-      // process WebSocket message
-      connection.sendUTF(message);
-    }
-  });
-
-  connection.on("close", function (connection) {
-    // close user connection
-  });
+    connection.on("close", function (connection) {
+      // close user connection
+    });
+  } else {
+    console.log("Rejected");
+    request.reject(403, "Origin not allowed");
+  }
 });
