@@ -1,5 +1,9 @@
 const httpServer = require("http").createServer();
 const io = require("socket.io")(httpServer, {
+  cors: {
+    methods: ["GET", "POST"],
+    allowedHeaders: ["raccoon"],
+  },
   allowRequest: (req, callback) => {
     // Get the allowable origins
     const allowableOrigins = JSON.parse(process.env.ALLOWABLE_ORIGINS);
