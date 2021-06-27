@@ -1,5 +1,9 @@
 const options = {
-  /* ... */
+  cors: {
+    methods: ["GET", "POST"],
+    allowedHeaders: ["raccoon"],
+    origin: "http://localhost:3000",
+  },
 };
 const io = require("socket.io")(process.env.PORT || 80, options);
 
