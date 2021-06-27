@@ -36,7 +36,7 @@ wsServer.on("request", function (request) {
       if (message.type === "utf8") {
         // process WebSocket message
         console.log("Message:", message);
-        connection.sendUTF(message);
+        connection.sendUTF(message.utf8Data);
       }
     });
 
