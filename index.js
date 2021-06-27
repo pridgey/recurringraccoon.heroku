@@ -2,13 +2,7 @@ const options = {
   cors: {
     methods: ["GET", "POST"],
     allowedHeaders: ["raccoon"],
-    origin: false,
-  },
-  allowRequest: (req, callback) => {
-    // Get the allowable origins
-    const allowableOrigins = JSON.parse(process.env.ALLOWABLE_ORIGINS);
-    const isOriginValid = allowableOrigins.includes(req.origin);
-    callback(null, isOriginValid);
+    origin: JSON.parse(process.env.ALLOWABLE_ORIGINS),
   },
 };
 const io = require("socket.io")(process.env.PORT || 80, options);
