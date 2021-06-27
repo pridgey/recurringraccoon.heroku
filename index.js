@@ -23,6 +23,8 @@ wsServer.on("request", function (request) {
 
   console.log("Allowable:", process.env.ALLOWABLE_ORIGINS);
   console.log("Test:", Array.isArray(process.env.ALLOWABLE_ORIGINS));
+  console.log("Type:", typeof process.env.ALLOWABLE_ORIGINS);
+  console.log("JSON:", JSON.parse(process.env.ALLOWABLE_ORIGINS));
 
   // Call this if accepted
   var connection = request.accept(null, request.origin);
