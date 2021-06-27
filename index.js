@@ -1,19 +1,7 @@
-const httpServer = require("http").createServer();
-const io = require("socket.io")(httpServer, {
-  cors: {
-    methods: ["GET", "POST"],
-    allowedHeaders: ["raccoon"],
-    origin: "http://localhost:3000",
-  },
-  allowRequest: (req, callback) => {
-    // Get the allowable origins
-    const allowableOrigins = JSON.parse(process.env.ALLOWABLE_ORIGINS);
-    const isOriginValid = allowableOrigins.includes(req.origin);
-    callback(null, isOriginValid);
-  },
-});
-
-var port = process.env.PORT || 80;
+const options = {
+  /* ... */
+};
+const io = require("socket.io")(process.env.PORT || 80, options);
 
 io.on("connection", (socket) => {
   socket.on("message", (message) => {
@@ -21,9 +9,34 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(port, () => {
-  console.log(`${new Date()} | Server is listening on port: ${port}`);
-});
+//=======================================================================
+
+// const httpServer = require("http").createServer();
+// const io = require("socket.io")(httpServer, {
+//   cors: {
+//     methods: ["GET", "POST"],
+//     allowedHeaders: ["raccoon"],
+//     origin: "http://localhost:3000",
+//   },
+//   allowRequest: (req, callback) => {
+//     // Get the allowable origins
+//     const allowableOrigins = JSON.parse(process.env.ALLOWABLE_ORIGINS);
+//     const isOriginValid = allowableOrigins.includes(req.origin);
+//     callback(null, isOriginValid);
+//   },
+// });
+
+// var port = process.env.PORT || 80;
+
+// io.on("connection", (socket) => {
+//   socket.on("message", (message) => {
+//     console.log("Message:", message);
+//   });
+// });
+
+// httpServer.listen(port, () => {
+//   console.log(`${new Date()} | Server is listening on port: ${port}`);
+// });
 
 //===================================================================================
 
