@@ -24,20 +24,17 @@ wsServer.on("request", function (request) {
   console.log(`${new Date()} | New Request`);
   console.log("Request Origin:", request.origin);
 
+  // Get the allowable origins
   const allowableOrigins = JSON.parse(process.env.ALLOWABLE_ORIGINS);
+  // Check if this origin is in our allowable origins
   if (allowableOrigins.includes(request.origin)) {
     console.log("Request Accepted :)");
     // Request is accepted
     var connection = request.accept(null, request.origin);
 
-    // This is the most important callback for us, we'll handle
-    // all messages from users here.
+    // What to do when we receive a message
     connection.on("message", function (message) {
-      if (message.type === "utf8") {
-        // process WebSocket message
-        console.log("Message:", message);
-        connection.sendUTF(message.utf8Data);
-      }
+      connection.send(message.data);
     });
 
     connection.on("close", function (connection) {
