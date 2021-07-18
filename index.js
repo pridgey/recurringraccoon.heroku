@@ -7,12 +7,13 @@ const options = {
 };
 const io = require("socket.io")(process.env.PORT || 80, options);
 
+const sockets = [];
+
 io.on("connection", (socket) => {
+  sockets.push(socket);
+
   socket.on("message", (message) => {
-    console.log("");
-    console.log("");
-    console.log("Message:", message);
-    console.log("");
-    socket.send(message);
+    sockets.forEach((socket) => socket.send(message));
+    //socket.send(message);
   });
 });
