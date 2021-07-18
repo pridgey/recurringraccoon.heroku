@@ -7,13 +7,15 @@ const options = {
 };
 const io = require("socket.io")(process.env.PORT || 80, options);
 
+io.socketsJoin("lobby");
+
 io.on("connection", (socket) => {
   console.log("========");
-  console.log("socket:", socket);
+  console.log("socket:", io.in("lobby"));
   console.log("========");
 
   socket.on("message", (message) => {
-    console.log("Message:", message);
+    socket.console.log("Message:", message);
     socket.send(message);
   });
 });
